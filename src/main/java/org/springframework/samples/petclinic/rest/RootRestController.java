@@ -18,8 +18,12 @@ package org.springframework.samples.petclinic.rest;
 
 import java.io.IOException;
 
-import javax.servlet.http.HttpServletResponse;
-
+import jakarta.inject.Inject;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,21 +31,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Vitaliy Fedoriv
- *
  */
-
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
 @RequestMapping("/")
 public class RootRestController {
 
-    @Value("#{servletContext.contextPath}")
-    private String servletContextPath;
+    @Value("${quarkus.http.root-path}")
+    private String contextPath;
 
 	@RequestMapping(value = "/")
 	public void redirectToSwagger(HttpServletResponse response) throws IOException {
-		response.sendRedirect(this.servletContextPath + "/swagger-ui/index.html");
+		response.sendRedirect(this.contextPath + "/swagger-ui/index.html");
 	}
 
 }
-
