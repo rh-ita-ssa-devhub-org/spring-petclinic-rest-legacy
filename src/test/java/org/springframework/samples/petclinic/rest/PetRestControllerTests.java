@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.samples.petclinic.dto.OwnerDto;
 import org.springframework.samples.petclinic.dto.PetDto;
 import org.springframework.samples.petclinic.dto.PetTypeDto;
 import org.springframework.samples.petclinic.mapper.PetMapper;
@@ -79,28 +78,16 @@ class PetRestControllerTests {
             .build();
         pets = new ArrayList<>();
 
-        OwnerDto owner = new OwnerDto();
-        owner.id(1).firstName("Eduardo")
-        .lastName("Rodriquez")
-        .address("2693 Commerce St.")
-        .city("McFarland")
-        .telephone("6085558763");
-
-        PetTypeDto petType = new PetTypeDto();
-        petType.id(2)
+        PetTypeDto petType = new PetTypeDto(2)
                 .name("dog");
 
-        PetDto pet = new PetDto();
-        pets.add(pet.id(3)
-            .name("Rosy")
-            .birthDate(LocalDate.now())
-            .type(petType));
+        PetDto pet = new PetDto("Rosy", 3, petType, new ArrayList<>())
+            .birthDate(LocalDate.now());
+        pets.add(pet);
 
-        pet = new PetDto();
-        pets.add(pet.id(4)
-            .name("Jewel")
-            .birthDate(LocalDate.now())
-            .type(petType));
+        pet = new PetDto("Jewel", 4, petType, new ArrayList<>())
+            .birthDate(LocalDate.now());
+        pets.add(pet);
     }
 
     @Test

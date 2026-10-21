@@ -15,31 +15,77 @@
  */
 package org.springframework.samples.petclinic.repository.jdbc;
 
-import org.springframework.data.jdbc.core.OneToManyResultSetExtractor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.lang.NonNull;
 import org.springframework.samples.petclinic.model.Visit;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * {@link ResultSetExtractor} implementation by using the
- * {@link OneToManyResultSetExtractor} of Spring Data Core JDBC Extensions.
+ * {@link ResultSetExtractor} implementation that extracts a list of {@link JdbcPet}
+ * objects with their associated {@link Visit} children from a joined {@link ResultSet}.
+ *
+ * <p>Replaces the former dependency on {@code OneToManyResultSetExtractor} from the
+ * Spring Data JDBC extensions library, which is no longer available in the
+ * Spring Boot 3.0.0 / Spring Data 3.x ecosystem.
  */
-public class JdbcPetVisitExtractor extends
-    OneToManyResultSetExtractor<JdbcPet, Visit, Integer> {
+public class JdbcPetVisitExtractor implements ResultSetExtractor<List<JdbcPet>> {
 
-    public JdbcPetVisitExtractor() {
-        super(new JdbcPetRowMapper(), new JdbcVisitRowMapper());
+    private final JdbcPetRowMapper petRowMapper = new JdbcPetRowMapper();
+    private final JdbcVisitRowMapper visitRowMapper = new JdbcVisitRowMapper();
+
+    /**
+     * Iterates over every row in the {@link ResultSet}, groups rows by pet ID using a
+     * {@link LinkedHashMap} to preserve insertion order, and attaches any associated
+     * {@link Visit} records to the correct {@link JdbcPet}.
+     *
+     * @param rs the {@link ResultSet} to extract data from
+     * @return a {@link List} of {@link JdbcPet} objects, each populated with its visits
+     */
+    @Override
+    public List<JdbcPet> extractData(@NonNull ResultSet rs) throws SQLException, DataAccessException {
+        Map<Integer, JdbcPet> map = new LinkedHashMap<>();
+        int rowNum = 0;
+        while (rs.next()) {
+            Integer petId = mapPrimaryKey(rs);
+            JdbcPet pet = map.get(petId);
+            if (pet == null) {
+                pet = petRowMapper.mapRow(rs, rowNum);
+                map.put(petId, pet);
+            }
+            Integer visitId = mapForeignKey(rs);
+            if (visitId != null) {
+                addChild(pet, visitRowMapper.mapRow(rs, rowNum));
+            }
+            rowNum++;
+        }
+        return new ArrayList<>(map.values());
     }
 
-    @Override
-    protected Integer mapPrimaryKey(ResultSet rs) throws SQLException {
+    /**
+     * Extracts the primary key (pet ID) from the current row of the {@link ResultSet}.
+     *
+     * @param rs the current {@link ResultSet} row
+     * @return the pet ID
+     */
+    private Integer mapPrimaryKey(ResultSet rs) throws SQLException {
         return rs.getInt("pets_id");
     }
 
-    @Override
-    protected Integer mapForeignKey(ResultSet rs) throws SQLException {
+    /**
+     * Extracts the foreign key (visit's pet_id) from the current row of the
+     * {@link ResultSet}, returning {@code null} when no visit is present on this row.
+     *
+     * @param rs the current {@link ResultSet} row
+     * @return the visit's pet_id, or {@code null} if the column is SQL NULL
+     */
+    private Integer mapForeignKey(ResultSet rs) throws SQLException {
         if (rs.getObject("visits_pet_id") == null) {
             return null;
         } else {
@@ -47,8 +93,13 @@ public class JdbcPetVisitExtractor extends
         }
     }
 
-    @Override
-    protected void addChild(JdbcPet root, Visit child) {
+    /**
+     * Adds a {@link Visit} child to the given {@link JdbcPet}.
+     *
+     * @param root  the parent {@link JdbcPet}
+     * @param child the {@link Visit} to attach
+     */
+    private void addChild(JdbcPet root, Visit child) {
         root.addVisit(child);
     }
 }

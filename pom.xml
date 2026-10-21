@@ -13,21 +13,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.2</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from Maven repository -->
     </parent>
 
     <properties>
         <!-- Third librairies -->
-        <spring-data-jdbc.version>1.2.1.RELEASE</spring-data-jdbc.version>
-        <springfox-swagger.version>3.0.0</springfox-swagger.version>
-        <jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
-        <mapstruct.version>1.4.1.Final</mapstruct.version>
-        <jaxb-api.version>2.3.0</jaxb-api.version>
+        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
 
         <!-- Maven plugins -->
         <jacoco.version>0.8.7</jacoco.version>
-        <openapi-generator-maven-plugin.version>5.2.1</openapi-generator-maven-plugin.version>
+        <openapi-generator-maven-plugin.version>6.6.0</openapi-generator-maven-plugin.version>
         <build-helper-maven-plugin.version>3.2.0</build-helper-maven-plugin.version>
 
         <!-- Docker -->
@@ -74,26 +71,14 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jdbc-core</artifactId>
-            <version>${spring-data-jdbc.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -121,9 +106,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${springfox-swagger.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.0.0</version>
         </dependency>
 
         <dependency>
@@ -144,6 +129,7 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -153,9 +139,19 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>${jaxb-api.version}</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+        </dependency>
+
+        <!-- Temporary dependency to assist with Spring Boot 3.0 property migration -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-properties-migrator</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
@@ -277,11 +273,11 @@
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModels>true</generateModels>
                             <generateSupportingFiles>false</generateSupportingFiles>
-                            <!-- Activating JAVA8 features -->
+                            <!-- Activating Jakarta EE 9+ / Spring Boot 3 compatibility -->
                             <configOptions>
                                 <performBeanValidation>true</performBeanValidation>
                                 <dateLibrary>java8</dateLibrary>
-                                <java8>true</java8>
+                                <useSpringBoot3>true</useSpringBoot3>
                                 <openApiNullable>false</openApiNullable>
                                 <serializationLibrary>jackson</serializationLibrary>
                             </configOptions>

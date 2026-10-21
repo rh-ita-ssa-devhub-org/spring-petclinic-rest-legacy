@@ -78,26 +78,25 @@ class OwnerRestControllerTests {
             .build();
         owners = new ArrayList<>();
 
-        OwnerDto ownerWithPet = new OwnerDto();
-        owners.add(ownerWithPet.id(1).firstName("George").lastName("Franklin").address("110 W. Liberty St.").city("Madison").telephone("6085551023").addPetsItem(getTestPetWithIdAndName(ownerWithPet, 1, "Rosy")));
-        OwnerDto owner = new OwnerDto();
-        owners.add(owner.id(2).firstName("Betty").lastName("Davis").address("638 Cardinal Ave.").city("Sun Prairie").telephone("6085551749"));
-        owner = new OwnerDto();
-        owners.add(owner.id(3).firstName("Eduardo").lastName("Rodriquez").address("2693 Commerce St.").city("McFarland").telephone("6085558763"));
-        owner = new OwnerDto();
-        owners.add(owner.id(4).firstName("Harold").lastName("Davis").address("563 Friendly St.").city("Windsor").telephone("6085553198"));
+        OwnerDto ownerWithPet = new OwnerDto("George", "Franklin", "110 W. Liberty St.", "Madison", "6085551023", new ArrayList<>());
+        owners.add(ownerWithPet.id(1).addPetsItem(getTestPetWithIdAndName(ownerWithPet, 1, "Rosy")));
+        OwnerDto owner = new OwnerDto("Betty", "Davis", "638 Cardinal Ave.", "Sun Prairie", "6085551749", new ArrayList<>());
+        owners.add(owner.id(2));
+        owner = new OwnerDto("Eduardo", "Rodriquez", "2693 Commerce St.", "McFarland", "6085558763", new ArrayList<>());
+        owners.add(owner.id(3));
+        owner = new OwnerDto("Harold", "Davis", "563 Friendly St.", "Windsor", "6085553198", new ArrayList<>());
+        owners.add(owner.id(4));
     }
 
     private PetDto getTestPetWithIdAndName(final OwnerDto owner, final int id, final String name) {
-        PetTypeDto petType = new PetTypeDto();
-        PetDto pet = new PetDto();
-        pet.id(id).name(name).birthDate(LocalDate.now()).type(petType.id(2).name("dog")).addVisitsItem(getTestVisitForPet(pet, 1));
+        PetTypeDto petType = new PetTypeDto(2).name("dog");
+        PetDto pet = new PetDto(name, id, petType, new ArrayList<>());
+        pet.birthDate(LocalDate.now()).addVisitsItem(getTestVisitForPet(pet, 1));
         return pet;
     }
 
     private VisitDto getTestVisitForPet(final PetDto pet, final int id) {
-        VisitDto visit = new VisitDto();
-        return visit.id(id).date(LocalDate.now()).description("test" + id);
+        return new VisitDto("test" + id, id).date(LocalDate.now());
     }
 
     @Test
@@ -223,14 +222,8 @@ class OwnerRestControllerTests {
     void testUpdateOwnerSuccess() throws Exception {
         given(this.clinicService.findOwnerById(1)).willReturn(ownerMapper.toOwner(owners.get(0)));
         int ownerId = owners.get(0).getId();
-        OwnerDto updatedOwnerDto = new OwnerDto();
-        // body.id = ownerId which is used in url path
+        OwnerDto updatedOwnerDto = new OwnerDto("GeorgeI", "Franklin", "110 W. Liberty St.", "Madison", "6085551023", new ArrayList<>());
         updatedOwnerDto.setId(ownerId);
-        updatedOwnerDto.setFirstName("GeorgeI");
-        updatedOwnerDto.setLastName("Franklin");
-        updatedOwnerDto.setAddress("110 W. Liberty St.");
-        updatedOwnerDto.setCity("Madison");
-        updatedOwnerDto.setTelephone("6085551023");
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -254,13 +247,7 @@ class OwnerRestControllerTests {
     void testUpdateOwnerSuccessNoBodyId() throws Exception {
         given(this.clinicService.findOwnerById(1)).willReturn(ownerMapper.toOwner(owners.get(0)));
         int ownerId = owners.get(0).getId();
-        OwnerDto updatedOwnerDto = new OwnerDto();
-        updatedOwnerDto.setFirstName("GeorgeI");
-        updatedOwnerDto.setLastName("Franklin");
-        updatedOwnerDto.setAddress("110 W. Liberty St.");
-        updatedOwnerDto.setCity("Madison");
-
-        updatedOwnerDto.setTelephone("6085551023");
+        OwnerDto updatedOwnerDto = new OwnerDto("GeorgeI", "Franklin", "110 W. Liberty St.", "Madison", "6085551023", new ArrayList<>());
         ObjectMapper mapper = new ObjectMapper();
         String newOwnerAsJSON = mapper.writeValueAsString(updatedOwnerDto);
         this.mockMvc.perform(put("/api/owners/" + ownerId)
@@ -281,14 +268,9 @@ class OwnerRestControllerTests {
     @WithMockUser(roles = "OWNER_ADMIN")
     void testUpdateOwnerErrorBodyIdMismatchWithPathId() throws Exception {
         int ownerId = owners.get(0).getId();
-        OwnerDto updatedOwnerDto = new OwnerDto();
+        OwnerDto updatedOwnerDto = new OwnerDto("GeorgeI", "Franklin", "110 W. Liberty St.", "Madison", "6085551023", new ArrayList<>());
         // body.id != ownerId
         updatedOwnerDto.setId(-1);
-        updatedOwnerDto.setFirstName("GeorgeI");
-        updatedOwnerDto.setLastName("Franklin");
-        updatedOwnerDto.setAddress("110 W. Liberty St.");
-        updatedOwnerDto.setCity("Madison");
-        updatedOwnerDto.setTelephone("6085551023");
         ObjectMapper mapper = new ObjectMapper();
         String newOwnerAsJSON = mapper.writeValueAsString(updatedOwnerDto);
         this.mockMvc.perform(put("/api/owners/" + ownerId)

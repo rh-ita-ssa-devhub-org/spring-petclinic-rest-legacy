@@ -1,0 +1,13 @@
+name: springboot2-to-35-custom
+description: |
+  Custom MTA rules for migrating Spring Boot 2.x to Spring Boot 3.5 and Jakarta EE 9+.
+  These rules supplement the default MTA rulesets (jakarta-ee9, hibernate) by covering
+  patterns not present in the built-in rules:
+    - javax.* → jakarta.* package renames (persistence, servlet, transaction, validation, xml.bind)
+    - Springfox → SpringDoc OpenAPI 2.x (both Java and pom.xml)
+    - Spring Security 6: WebSecurityConfigurerAdapter removal
+    - Spring Security 6: @EnableGlobalMethodSecurity → @EnableMethodSecurity
+    - Spring Security 6: authorizeRequests() → authorizeHttpRequests() + lambda DSL
+    - MySQL Connector/J artifact rename (mysql:mysql-connector-java → com.mysql:mysql-connector-j)
+    - Deprecated MySQL JDBC driver class name
+    - @MockBean → @MockitoBean (Spring Boot 3.4+ / 3.5 specific)

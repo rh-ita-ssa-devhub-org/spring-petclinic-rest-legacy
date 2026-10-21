@@ -1,0 +1,636 @@
+[
+  {
+    "name": "spring-boot",
+    "description": "Ruleset for migration of Spring Boot",
+    "violations": {
+      "spring-boot-2.x-to-3.0-core-changes-00040": {
+        "description": "Consider using the Spring Boot Properties Migrator",
+        "category": "optional",
+        "labels": [
+          "konveyor.io/source=spring-boot2",
+          "konveyor.io/target=spring-boot3+"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Spring Boot 3.0 has renamed or removed many configuration properties. To help identify\nproperties that need to be updated, add the `spring-boot-properties-migrator` module\nto your project temporarily.\n\n**Maven:**\n```xml\n<dependency>\n    <groupId>org.springframework.boot</groupId>\n    <artifactId>spring-boot-properties-migrator</artifactId>\n    <scope>runtime</scope>\n</dependency>\n```\n\n**Gradle:**\n```groovy\nruntime 'org.springframework.boot:spring-boot-properties-migrator'\n```\n\nOnce added, the migrator will:\n- Analyze your `application.properties` or `application.yml` at runtime\n- Log warnings for deprecated properties\n- Temporarily migrate properties at runtime where possible\n\n**Important:** Remove this dependency after completing the migration, as it is intended\nfor development use only and adds startup overhead.\n"
+          }
+        ]
+      },
+      "spring-boot-2.x-to-3.0-datasource-00000": {
+        "description": "Spring data properties",
+        "category": "potential",
+        "labels": [
+          "konveyor.io/source=spring-boot2",
+          "konveyor.io/target=spring-boot3+"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-postgresql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # uncomment for init database (first start)\n 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/postgresql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/postgresql/populateDB.sql\n 5  \n 6  # PostgreSQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:postgresql://localhost:5432/petclinic\n 9  spring.datasource.username=postgres\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=org.postgresql.Driver\n12  spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect\n13  spring.jpa.hibernate.ddl-auto=none\n14  #----------------------------------------------------------------\n15  # PostgreSQL config end\n",
+            "lineNumber": 8,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-postgresql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # uncomment for init database (first start)\n 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/postgresql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/postgresql/populateDB.sql\n 5  \n 6  # PostgreSQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:postgresql://localhost:5432/petclinic\n 9  spring.datasource.username=postgres\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=org.postgresql.Driver\n12  spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect\n13  spring.jpa.hibernate.ddl-auto=none\n14  #----------------------------------------------------------------\n15  # PostgreSQL config end\n",
+            "lineNumber": 9,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-postgresql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # uncomment for init database (first start)\n 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/postgresql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/postgresql/populateDB.sql\n 5  \n 6  # PostgreSQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:postgresql://localhost:5432/petclinic\n 9  spring.datasource.username=postgres\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=org.postgresql.Driver\n12  spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect\n13  spring.jpa.hibernate.ddl-auto=none\n14  #----------------------------------------------------------------\n15  # PostgreSQL config end\n",
+            "lineNumber": 10,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-postgresql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/postgresql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/postgresql/populateDB.sql\n 5  \n 6  # PostgreSQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:postgresql://localhost:5432/petclinic\n 9  spring.datasource.username=postgres\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=org.postgresql.Driver\n12  spring.jpa.database-platform=org.hibernate.dialect.PostgreSQLDialect\n13  spring.jpa.hibernate.ddl-auto=none\n14  #----------------------------------------------------------------\n15  # PostgreSQL config end\n",
+            "lineNumber": 11,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-hsqldb.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # HSQLDB config start\n 2  #----------------------------------------------------------------\n 3  \n 4  spring.sql.init.schema-locations=classpath*:db/hsqldb/initDB.sql\n 5  spring.sql.init.data-locations=classpath*:db/hsqldb/populateDB.sql\n 6  \n 7  spring.datasource.url=jdbc:hsqldb:mem:petclinic\n 8  spring.datasource.username=sa \n 9  spring.datasource.password=\n10  spring.jpa.database-platform=org.hibernate.dialect.HSQLDialect\n11  spring.jpa.hibernate.ddl-auto=none\n12  #----------------------------------------------------------------\n13  # HSQLDB config end\n",
+            "lineNumber": 7,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-hsqldb.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # HSQLDB config start\n 2  #----------------------------------------------------------------\n 3  \n 4  spring.sql.init.schema-locations=classpath*:db/hsqldb/initDB.sql\n 5  spring.sql.init.data-locations=classpath*:db/hsqldb/populateDB.sql\n 6  \n 7  spring.datasource.url=jdbc:hsqldb:mem:petclinic\n 8  spring.datasource.username=sa \n 9  spring.datasource.password=\n10  spring.jpa.database-platform=org.hibernate.dialect.HSQLDialect\n11  spring.jpa.hibernate.ddl-auto=none\n12  #----------------------------------------------------------------\n13  # HSQLDB config end\n",
+            "lineNumber": 8,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-hsqldb.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # HSQLDB config start\n 2  #----------------------------------------------------------------\n 3  \n 4  spring.sql.init.schema-locations=classpath*:db/hsqldb/initDB.sql\n 5  spring.sql.init.data-locations=classpath*:db/hsqldb/populateDB.sql\n 6  \n 7  spring.datasource.url=jdbc:hsqldb:mem:petclinic\n 8  spring.datasource.username=sa \n 9  spring.datasource.password=\n10  spring.jpa.database-platform=org.hibernate.dialect.HSQLDialect\n11  spring.jpa.hibernate.ddl-auto=none\n12  #----------------------------------------------------------------\n13  # HSQLDB config end\n",
+            "lineNumber": 9,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-mysql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # uncomment for init database (first start)\n 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/mysql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/mysql/populateDB.sql\n 5  \n 6  # MySQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:mysql://localhost:3306/petclinic?useUnicode=true\n 9  spring.datasource.username=pc\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\n12  spring.jpa.database=MYSQL\n13  spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect\n14  spring.jpa.hibernate.ddl-auto=none\n15  #----------------------------------------------------------------\n16  # MySQL config end\n",
+            "lineNumber": 8,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-mysql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # uncomment for init database (first start)\n 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/mysql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/mysql/populateDB.sql\n 5  \n 6  # MySQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:mysql://localhost:3306/petclinic?useUnicode=true\n 9  spring.datasource.username=pc\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\n12  spring.jpa.database=MYSQL\n13  spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect\n14  spring.jpa.hibernate.ddl-auto=none\n15  #----------------------------------------------------------------\n16  # MySQL config end\n",
+            "lineNumber": 9,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-mysql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 1  # uncomment for init database (first start)\n 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/mysql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/mysql/populateDB.sql\n 5  \n 6  # MySQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:mysql://localhost:3306/petclinic?useUnicode=true\n 9  spring.datasource.username=pc\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\n12  spring.jpa.database=MYSQL\n13  spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect\n14  spring.jpa.hibernate.ddl-auto=none\n15  #----------------------------------------------------------------\n16  # MySQL config end\n",
+            "lineNumber": 10,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/resources/application-mysql.properties",
+            "message": "The `spring.data` prefix has been reserved for Spring Data and any properties under the prefix imply\nthat Spring Data is required on the classpath.\n",
+            "codeSnip": " 2  #spring.sql.init.mode=always\n 3  #spring.sql.init.schema-locations=classpath*:db/mysql/initDB.sql\n 4  #spring.sql.init.data-locations=classpath*:db/mysql/populateDB.sql\n 5  \n 6  # MySQL config start\n 7  #----------------------------------------------------------------\n 8  spring.datasource.url=jdbc:mysql://localhost:3306/petclinic?useUnicode=true\n 9  spring.datasource.username=pc\n10  spring.datasource.password=petclinic\n11  spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver\n12  spring.jpa.database=MYSQL\n13  spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect\n14  spring.jpa.hibernate.ddl-auto=none\n15  #----------------------------------------------------------------\n16  # MySQL config end\n",
+            "lineNumber": 11,
+            "variables": {
+              "matchingText": "spring.data"
+            }
+          }
+        ]
+      }
+    },
+    "unmatched": [
+      "spring-boot-2.x-to-3.0-security-00010",
+      "spring-boot-2.x-to-3.0-actuator-00030",
+      "spring-boot-2.x-to-3.0-batch-00010",
+      "spring-boot-2.x-to-3.0-actuator-00010",
+      "spring-boot-2.x-to-3.0-batch-00020",
+      "spring-boot-2.x-to-3.0-session-00000",
+      "spring-boot-2.x-to-3.0-datasource-00020",
+      "spring-boot-2.x-to-3.0-datasource-00010",
+      "spring-boot-2.x-to-3.0-session-00010",
+      "spring-boot-2.x-to-3.0-datasource-00040",
+      "spring-boot-2.x-to-3.0-session-00020",
+      "spring-boot-2.x-to-3.0-datasource-00060",
+      "spring-boot-2.x-to-3.0-datasource-00030",
+      "spring-boot-2.x-to-3.0-datasource-00050",
+      "spring-boot-2.x-to-3.0-webapp-changes-00000",
+      "spring-boot-2.x-to-3.0-batch-00000",
+      "spring-boot-2.x-to-3.0-datasource-00070",
+      "spring-boot-2.x-to-3.0-webapp-changes-00020",
+      "spring-boot-2.x-to-3.0-core-changes-00030",
+      "spring-boot-2.x-to-3.0-core-changes-00001",
+      "spring-boot-2.x-to-3.0-webapp-changes-00030",
+      "spring-boot-2.x-to-3.0-actuator-00020",
+      "spring-boot-2.x-to-3.0-core-changes-00050",
+      "spring-boot-2.x-to-3.0-webapp-changes-00010",
+      "spring-boot-2.x-to-3.0-dependencies-00020",
+      "spring-boot-2.x-to-3.0-webapp-changes-00040",
+      "spring-boot-2.x-to-3.0-dependencies-00021",
+      "spring-boot-2.x-to-3.0-core-changes-00020",
+      "spring-boot-2.x-to-3.0-micrometer-00030",
+      "spring-boot-2.x-to-3.0-security-00000",
+      "spring-boot-2.x-to-3.0-removals-00010",
+      "spring-boot-2.x-to-3.0-removals-00020",
+      "spring-boot-2.x-to-3.0-removals-00030",
+      "spring-boot-2.x-to-3.0-core-changes-00060",
+      "spring-boot-2.x-to-3.0-removals-00040",
+      "spring-boot-2.x-to-3.0-removals-00050",
+      "spring-boot-2.x-to-3.0-removals-00060",
+      "spring-boot-2.x-to-3.0-removals-00080",
+      "spring-boot-2.x-to-3.0-micrometer-00020",
+      "spring-boot-2.x-to-3.0-removals-00090",
+      "spring-boot-2.x-to-3.0-removals-00070",
+      "spring-boot-2.x-to-3.0-core-changes-00010",
+      "spring-boot-2.x-to-3.0-micrometer-00040",
+      "spring-boot-2.x-to-3.0-removals-00110",
+      "spring-boot-2.x-to-3.0-removals-00100",
+      "spring-boot-2.x-to-3.0-removals-00120",
+      "spring-boot-2.x-to-3.0-removals-00130",
+      "spring-boot-2.x-to-3.0-removals-00140",
+      "spring-boot-2.x-to-3.0-removals-00150",
+      "spring-boot-2.x-to-3.0-removals-00170",
+      "spring-boot-2.x-to-3.0-removals-00160",
+      "spring-boot-2.x-to-3.0-removals-00180",
+      "spring-boot-2.x-to-3.0-removals-00200",
+      "spring-boot-2.x-to-3.0-removals-00210",
+      "spring-boot-2.x-to-3.0-removals-00220",
+      "spring-boot-2.x-to-3.0-removals-00190",
+      "spring-boot-2.x-to-3.0-removals-00230",
+      "spring-boot-2.x-to-3.0-micrometer-00010",
+      "spring-boot-2.x-to-3.0-removals-00270",
+      "spring-boot-2.x-to-3.0-removals-00290",
+      "spring-boot-2.x-to-3.0-removals-00250",
+      "spring-boot-2.x-to-3.0-removals-00310",
+      "spring-boot-2.x-to-3.0-removals-00300",
+      "spring-boot-2.x-to-3.0-removals-00260",
+      "spring-boot-2.x-to-3.0-removals-00350",
+      "spring-boot-2.x-to-3.0-removals-00340",
+      "spring-boot-2.x-to-3.0-removals-00320",
+      "spring-boot-2.x-to-3.0-removals-00330",
+      "spring-boot-2.x-to-3.0-removals-00400",
+      "spring-boot-2.x-to-3.0-removals-00360",
+      "spring-boot-2.x-to-3.0-removals-00370",
+      "spring-boot-2.x-to-3.0-removals-00410",
+      "spring-boot-2.x-to-3.0-removals-00380",
+      "spring-boot-2.x-to-3.0-removals-00390",
+      "spring-boot-2.x-to-3.0-removals-00420",
+      "spring-boot-2.x-to-3.0-removals-00430",
+      "spring-boot-2.x-to-3.0-removals-00440",
+      "spring-boot-2.x-to-3.0-removals-00450",
+      "spring-boot-2.x-to-3.0-removals-00480",
+      "spring-boot-2.x-to-3.0-removals-00460",
+      "spring-boot-2.x-to-3.0-removals-00470",
+      "spring-boot-2.x-to-3.0-removals-00490",
+      "spring-boot-2.x-to-3.0-removals-00510",
+      "spring-boot-2.x-to-3.0-removals-00500",
+      "spring-boot-2.x-to-3.0-removals-00520",
+      "spring-boot-2.x-to-3.0-removals-00530",
+      "spring-boot-2.x-to-3.0-removals-00550",
+      "spring-boot-2.x-to-3.0-removals-00560",
+      "spring-boot-2.x-to-3.0-removals-00580",
+      "spring-boot-2.x-to-3.0-removals-00570",
+      "spring-boot-2.x-to-3.0-removals-00540",
+      "spring-boot-2.x-to-3.0-removals-00600",
+      "spring-boot-2.x-to-3.0-removals-00590",
+      "spring-boot-2.x-to-3.0-removals-00650",
+      "spring-boot-2.x-to-3.0-removals-00610",
+      "spring-boot-2.x-to-3.0-removals-00630",
+      "spring-boot-2.x-to-3.0-removals-00670",
+      "spring-boot-2.x-to-3.0-removals-00660",
+      "spring-boot-2.x-to-3.0-removals-00620",
+      "spring-boot-2.x-to-3.0-removals-00640",
+      "spring-boot-2.x-to-3.0-removals-00680",
+      "spring-boot-2.x-to-3.0-removals-00690",
+      "spring-boot-2.x-to-3.0-removals-00740",
+      "spring-boot-2.x-to-3.0-removals-00700",
+      "spring-boot-2.x-to-3.0-removals-00710",
+      "spring-boot-2.x-to-3.0-removals-00720",
+      "spring-boot-2.x-to-3.0-removals-00760",
+      "spring-boot-2.x-to-3.0-removals-00770",
+      "spring-boot-2.x-to-3.0-removals-00750",
+      "spring-boot-2.x-to-3.0-removals-00790",
+      "spring-boot-2.x-to-3.0-removals-00780",
+      "spring-boot-2.x-to-3.0-removals-00810",
+      "spring-boot-2.x-to-3.0-removals-00830",
+      "spring-boot-2.x-to-3.0-removals-00800",
+      "spring-boot-2.x-to-3.0-removals-00730",
+      "spring-boot-2.x-to-3.0-removals-00860",
+      "spring-boot-2.x-to-3.0-removals-00840",
+      "spring-boot-2.x-to-3.0-removals-00820",
+      "spring-boot-2.x-to-3.0-removals-00870",
+      "spring-boot-2.x-to-3.0-removals-00880",
+      "spring-boot-2.x-to-3.0-removals-00850",
+      "spring-boot-2.x-to-3.0-removals-00950",
+      "spring-boot-2.x-to-3.0-removals-00890",
+      "spring-boot-2.x-to-3.0-removals-00910",
+      "spring-boot-2.x-to-3.0-removals-00940",
+      "spring-boot-2.x-to-3.0-removals-00920",
+      "spring-boot-2.x-to-3.0-removals-00960",
+      "spring-boot-2.x-to-3.0-removals-00980",
+      "spring-boot-2.x-to-3.0-removals-00930",
+      "spring-boot-2.x-to-3.0-removals-00970",
+      "spring-boot-2.x-to-3.0-removals-00900",
+      "spring-boot-2.x-to-3.0-removals-01000",
+      "spring-boot-2.x-to-3.0-removals-00990",
+      "spring-boot-2.x-to-3.0-removals-01010",
+      "spring-boot-2.x-to-3.0-removals-01040",
+      "spring-boot-2.x-to-3.0-removals-01070",
+      "spring-boot-2.x-to-3.0-removals-01050",
+      "spring-boot-2.x-to-3.0-removals-01060",
+      "spring-boot-2.x-to-3.0-removals-01030",
+      "spring-boot-2.x-to-3.0-removals-01020",
+      "spring-boot-2.x-to-3.0-removals-01080",
+      "spring-boot-2.x-to-3.0-removals-01090",
+      "spring-boot-2.x-to-3.0-removals-01100",
+      "spring-boot-2.x-to-3.0-removals-01110",
+      "spring-boot-2.x-to-3.0-removals-01140",
+      "spring-boot-2.x-to-3.0-removals-01150",
+      "spring-boot-2.x-to-3.0-removals-01120",
+      "spring-boot-2.x-to-3.0-removals-01190",
+      "spring-boot-2.x-to-3.0-removals-01160",
+      "spring-boot-2.x-to-3.0-removals-01180",
+      "spring-boot-2.x-to-3.0-removals-01170",
+      "spring-boot-2.x-to-3.0-removals-01200"
+    ],
+    "skipped": [
+      "spring-boot-2.x-to-3.0-dependencies-00001",
+      "spring-boot-2.x-to-3.0-dependencies-00002",
+      "spring-boot-2.x-to-3.0-dependencies-00003",
+      "spring-boot-2.x-to-3.0-dependencies-00004",
+      "spring-boot-2.x-to-3.0-dependencies-00005",
+      "spring-boot-2.x-to-3.0-dependencies-00006",
+      "spring-boot-2.x-to-3.0-dependencies-00007",
+      "spring-boot-2.x-to-3.0-dependencies-00008",
+      "spring-boot-2.x-to-3.0-dependencies-00009",
+      "spring-boot-2.x-to-3.0-dependencies-00010",
+      "spring-boot-2.x-to-3.0-dependencies-00011",
+      "spring-boot-2.x-to-3.0-dependencies-00012",
+      "spring-boot-2.x-to-3.0-dependencies-00013",
+      "spring-boot-2.x-to-3.0-dependencies-00014",
+      "spring-boot-2.x-to-3.0-dependencies-00015",
+      "spring-boot-2.x-to-3.0-dependencies-00016"
+    ],
+    "activeProfileName": "Springboot update"
+  },
+  {
+    "name": "spring-framework",
+    "description": "Ruleset for migration of Spring Framework versions",
+    "violations": {
+      "spring-framework-5.x-to-6.0-security-00020": {
+        "description": "Change HttpSessionSecurityContextRepository to DelegatingSecurityContextRepository",
+        "category": "potential",
+        "labels": [
+          "konveyor.io/source=spring5",
+          "konveyor.io/source=spring-boot2",
+          "konveyor.io/target=spring6+",
+          "konveyor.io/target=spring-boot3+"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+            "message": "In Spring Security 5, the default SecurityContextRepository is HttpSessionSecurityContextRepository.\nIn Spring Security 6, the default SecurityContextRepository is DelegatingSecurityContextRepository.\nTo opt into the new Spring Security 6 default, the following configuration can be used:\n\n```java\n@Bean\npublic SecurityFilterChain filterChain(HttpSecurity http) throws Exception {\n    http\n        // ...\n        .securityContext((securityContext) -> securityContext\n            .securityContextRepository(new DelegatingSecurityContextRepository(\n                    new RequestAttributeSecurityContextRepository(),\n                    new HttpSessionSecurityContextRepository()\n            ))\n        );\n    return http.build();\n}\n```\n",
+            "codeSnip": "\n10  import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;\n11  import org.springframework.security.config.annotation.web.builders.HttpSecurity;\n12  import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\n13  import org.springframework.security.config.http.SessionCreationPolicy;\n14  import org.springframework.security.core.userdetails.UserDetailsService;\n15  import org.springframework.security.crypto.factory.PasswordEncoderFactories;\n16  import org.springframework.security.crypto.password.PasswordEncoder;\n17  import org.springframework.security.provisioning.JdbcUserDetailsManager;\n18  import org.springframework.security.web.SecurityFilterChain;\n19  import org.springframework.security.web.context.DelegatingSecurityContextRepository;\n20  import org.springframework.security.web.context.HttpSessionSecurityContextRepository;\n21  import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;\n22  import org.springframework.security.web.savedrequest.HttpSessionRequestCache;\n23  \n24  @Configuration\n25  @EnableWebSecurity\n26  @EnableMethodSecurity(prePostEnabled = true)\n27  @ConditionalOnProperty(name = \"petclinic.security.enable\", havingValue = \"true\")\n28  public class BasicAuthenticationConfig {\n29  \n30  @Autowired",
+            "lineNumber": 20,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+              "kind": "Module",
+              "name": "org.springframework.security.web.context.HttpSessionSecurityContextRepository",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+            "message": "In Spring Security 5, the default SecurityContextRepository is HttpSessionSecurityContextRepository.\nIn Spring Security 6, the default SecurityContextRepository is DelegatingSecurityContextRepository.\nTo opt into the new Spring Security 6 default, the following configuration can be used:\n\n```java\n@Bean\npublic SecurityFilterChain filterChain(HttpSecurity http) throws Exception {\n    http\n        // ...\n        .securityContext((securityContext) -> securityContext\n            .securityContextRepository(new DelegatingSecurityContextRepository(\n                    new RequestAttributeSecurityContextRepository(),\n                    new HttpSessionSecurityContextRepository()\n            ))\n        );\n    return http.build();\n}\n```\n",
+            "codeSnip": "\n40  .authorizeHttpRequests(auth -> auth\n41  .shouldFilterAllDispatcherTypes(true)\n42  .anyRequest()\n43  .authenticated()\n44  )\n45  .httpBasic(Customizer.withDefaults())\n46  .csrf(csrf -> csrf.disable())\n47  .securityContext(securityContext -> securityContext\n48  .securityContextRepository(new DelegatingSecurityContextRepository(\n49  new RequestAttributeSecurityContextRepository(),\n50  new HttpSessionSecurityContextRepository()\n51  ))\n52  )\n53  .sessionManagement(session -> session\n54  .sessionCreationPolicy(SessionCreationPolicy.STATELESS)\n55  )\n56  .requestCache(cache -> cache\n57  .requestCache(requestCache)\n58  );\n59  // @formatter:on\n60  return http.build();",
+            "lineNumber": 50,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+              "kind": "Constructor",
+              "name": "customize",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+            "message": "In Spring Security 5, the default SecurityContextRepository is HttpSessionSecurityContextRepository.\nIn Spring Security 6, the default SecurityContextRepository is DelegatingSecurityContextRepository.\nTo opt into the new Spring Security 6 default, the following configuration can be used:\n\n```java\n@Bean\npublic SecurityFilterChain filterChain(HttpSecurity http) throws Exception {\n    http\n        // ...\n        .securityContext((securityContext) -> securityContext\n            .securityContextRepository(new DelegatingSecurityContextRepository(\n                    new RequestAttributeSecurityContextRepository(),\n                    new HttpSessionSecurityContextRepository()\n            ))\n        );\n    return http.build();\n}\n```\n",
+            "codeSnip": "\n35  // @formatter:off\n36  HttpSessionRequestCache requestCache = new HttpSessionRequestCache();\n37  requestCache.setMatchingRequestParameterName(\"continue\");\n38  \n39  http\n40  .authorizeHttpRequests(auth -> auth\n41  .shouldFilterAllDispatcherTypes(true)\n42  .anyRequest()\n43  .authenticated()\n44  )\n45  .httpBasic(Customizer.withDefaults())\n46  .csrf(csrf -> csrf.disable())\n47  .securityContext(securityContext -> securityContext\n48  .securityContextRepository(new DelegatingSecurityContextRepository(\n49  new RequestAttributeSecurityContextRepository(),\n50  new HttpSessionSecurityContextRepository()\n51  ))\n52  )\n53  .sessionManagement(session -> session\n54  .sessionCreationPolicy(SessionCreationPolicy.STATELESS)\n55  )",
+            "lineNumber": 45,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+              "kind": "Method",
+              "name": "securityFilterChain",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          }
+        ]
+      },
+      "spring-framework-5.x-to-6.0-security-00040": {
+        "description": "Optimize Querying of RequestCache",
+        "category": "optional",
+        "labels": [
+          "konveyor.io/source=spring5",
+          "konveyor.io/source=spring-boot2",
+          "konveyor.io/target=spring6+",
+          "konveyor.io/target=spring-boot3+"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+            "message": "In Spring Security 5, the default behavior is to query the saved request on every request. This means that in a\ntypical setup, that in order to use the RequestCache the HttpSession is queried on every request.\n\nIn Spring Security 6, the default is that RequestCache will only be queried for a cached request if the HTTP parameter\ncontinue is defined. This allows Spring Security to avoid unnecessarily reading the HttpSession with the RequestCache.\n\nIn Spring Security 5 the default is to use HttpSessionRequestCache which will be queried for a cached request on every request.\nIf you are not overriding the defaults (i.e. using NullRequestCache), then the following configuration can be used\nto explicitly opt into the Spring Security 6 behavior in Spring Security 5.8:\n\n@Bean\nDefaultSecurityFilterChain springSecurity(HttpSecurity http) throws Exception {\n  HttpSessionRequestCache requestCache = new HttpSessionRequestCache();\n  requestCache.setMatchingRequestParameterName(\"continue\");\n  http\n    // ...\n    .requestCache((cache) -> cache\n      .requestCache(requestCache)\n    );\n  return http.build();\n}\n",
+            "codeSnip": "\n24  @Configuration\n25  @EnableWebSecurity\n26  @EnableMethodSecurity(prePostEnabled = true)\n27  @ConditionalOnProperty(name = \"petclinic.security.enable\", havingValue = \"true\")\n28  public class BasicAuthenticationConfig {\n29  \n30  @Autowired\n31  private DataSource dataSource;\n32  \n33  @Bean\n34  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\n35  // @formatter:off\n36  HttpSessionRequestCache requestCache = new HttpSessionRequestCache();\n37  requestCache.setMatchingRequestParameterName(\"continue\");\n38  \n39  http\n40  .authorizeHttpRequests(auth -> auth\n41  .shouldFilterAllDispatcherTypes(true)\n42  .anyRequest()\n43  .authenticated()\n44  )",
+            "lineNumber": 34,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+              "kind": "Method",
+              "name": "securityFilterChain",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/DisableSecurityConfig.java",
+            "message": "In Spring Security 5, the default behavior is to query the saved request on every request. This means that in a\ntypical setup, that in order to use the RequestCache the HttpSession is queried on every request.\n\nIn Spring Security 6, the default is that RequestCache will only be queried for a cached request if the HTTP parameter\ncontinue is defined. This allows Spring Security to avoid unnecessarily reading the HttpSession with the RequestCache.\n\nIn Spring Security 5 the default is to use HttpSessionRequestCache which will be queried for a cached request on every request.\nIf you are not overriding the defaults (i.e. using NullRequestCache), then the following configuration can be used\nto explicitly opt into the Spring Security 6 behavior in Spring Security 5.8:\n\n@Bean\nDefaultSecurityFilterChain springSecurity(HttpSecurity http) throws Exception {\n  HttpSessionRequestCache requestCache = new HttpSessionRequestCache();\n  requestCache.setMatchingRequestParameterName(\"continue\");\n  http\n    // ...\n    .requestCache((cache) -> cache\n      .requestCache(requestCache)\n    );\n  return http.build();\n}\n",
+            "codeSnip": "\n10  \n11  /**\n12  * Starting from Spring Boot 2, if Spring Security is present, endpoints are secured by default\n13  * using Spring Security's content-negotiation strategy.\n14  */\n15  @Configuration\n16  @ConditionalOnProperty(name = \"petclinic.security.enable\", havingValue = \"false\")\n17  public class DisableSecurityConfig {\n18  \n19  @Bean\n20  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\n21  // @formatter:off\n22  HttpSessionRequestCache requestCache = new HttpSessionRequestCache();\n23  requestCache.setMatchingRequestParameterName(\"continue\");\n24  http\n25  .requestCache(cache -> cache.requestCache(requestCache))\n26  .authorizeHttpRequests(auth -> auth\n27  .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR, DispatcherType.ASYNC, DispatcherType.INCLUDE).permitAll()\n28  .anyRequest().permitAll()\n29  )\n30  .csrf(csrf -> csrf.disable());",
+            "lineNumber": 20,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/DisableSecurityConfig.java",
+              "kind": "Method",
+              "name": "securityFilterChain",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          }
+        ]
+      },
+      "spring-framework-5.x-to-6.0-security-00050": {
+        "description": "Add @Configuration annotation",
+        "category": "mandatory",
+        "labels": [
+          "konveyor.io/source=spring5",
+          "konveyor.io/source=spring-boot2",
+          "konveyor.io/target=spring6+",
+          "konveyor.io/target=spring-boot3+"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+            "message": "In 6.0, @Configuration is removed from `@EnableWebSecurity`, `@EnableMethodSecurity`, `@EnableGlobalMethodSecurity`, and `@EnableGlobalAuthentication`.\nThis means that wherever you are using one of these annotations, you may need to add @Configuration. For example, @EnableMethodSecurity changes from:\n\n```\n@EnableMethodSecurity\npublic class MyConfiguration {\n  // ...\n}\n```\nto\n```\n@Configuration\n@EnableMethodSecurity\npublic class MyConfiguration {\n  // ...\n}\n```\n",
+            "codeSnip": "\n15  import org.springframework.security.crypto.factory.PasswordEncoderFactories;\n16  import org.springframework.security.crypto.password.PasswordEncoder;\n17  import org.springframework.security.provisioning.JdbcUserDetailsManager;\n18  import org.springframework.security.web.SecurityFilterChain;\n19  import org.springframework.security.web.context.DelegatingSecurityContextRepository;\n20  import org.springframework.security.web.context.HttpSessionSecurityContextRepository;\n21  import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;\n22  import org.springframework.security.web.savedrequest.HttpSessionRequestCache;\n23  \n24  @Configuration\n25  @EnableWebSecurity\n26  @EnableMethodSecurity(prePostEnabled = true)\n27  @ConditionalOnProperty(name = \"petclinic.security.enable\", havingValue = \"true\")\n28  public class BasicAuthenticationConfig {\n29  \n30  @Autowired\n31  private DataSource dataSource;\n32  \n33  @Bean\n34  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\n35  // @formatter:off",
+            "lineNumber": 25,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+              "kind": "Property",
+              "name": "Configuration",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+            "message": "In 6.0, @Configuration is removed from `@EnableWebSecurity`, `@EnableMethodSecurity`, `@EnableGlobalMethodSecurity`, and `@EnableGlobalAuthentication`.\nThis means that wherever you are using one of these annotations, you may need to add @Configuration. For example, @EnableMethodSecurity changes from:\n\n```\n@EnableMethodSecurity\npublic class MyConfiguration {\n  // ...\n}\n```\nto\n```\n@Configuration\n@EnableMethodSecurity\npublic class MyConfiguration {\n  // ...\n}\n```\n",
+            "codeSnip": "\n16  import org.springframework.security.crypto.password.PasswordEncoder;\n17  import org.springframework.security.provisioning.JdbcUserDetailsManager;\n18  import org.springframework.security.web.SecurityFilterChain;\n19  import org.springframework.security.web.context.DelegatingSecurityContextRepository;\n20  import org.springframework.security.web.context.HttpSessionSecurityContextRepository;\n21  import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;\n22  import org.springframework.security.web.savedrequest.HttpSessionRequestCache;\n23  \n24  @Configuration\n25  @EnableWebSecurity\n26  @EnableMethodSecurity(prePostEnabled = true)\n27  @ConditionalOnProperty(name = \"petclinic.security.enable\", havingValue = \"true\")\n28  public class BasicAuthenticationConfig {\n29  \n30  @Autowired\n31  private DataSource dataSource;\n32  \n33  @Bean\n34  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\n35  // @formatter:off\n36  HttpSessionRequestCache requestCache = new HttpSessionRequestCache();",
+            "lineNumber": 26,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+              "kind": "Property",
+              "name": "Configuration",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          }
+        ]
+      },
+      "spring-framework-5.x-to-6.0-security-00170": {
+        "description": "Switch to filter all dispatcher types",
+        "category": "optional",
+        "labels": [
+          "konveyor.io/source=spring5",
+          "konveyor.io/source=spring-boot2",
+          "konveyor.io/target=spring6+",
+          "konveyor.io/target=spring-boot3+"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+            "message": "Spring Security 5.8 and earlier only perform authorization once per request. This means that dispatcher types\nlike FORWARD and INCLUDE that run after REQUEST are not secured by default. It’s recommended that Spring Security\nsecure all dispatch types. As such, in 6.0, Spring Security changes this default.\n\nTo do this, you should change:\n```\nhttp\n.authorizeHttpRequests((authorize) -> authorize\n    .shouldFilterAllDispatcherTypes(false)\n    .mvcMatchers(\"/app/**\").hasRole(\"APP\")\n    // ...\n    .anyRequest().denyAll()\n)\n// ...\n```\nto\n```\nhttp\n.authorizeHttpRequests((authorize) -> authorize\n    .shouldFilterAllDispatcherTypes(true)\n    .mvcMatchers(\"/app/**\").hasRole(\"APP\")\n    // ...\n    .anyRequest().denyAll()\n)\n// ...\n```\nAnd, the FilterChainProxy should be registered for all dispatcher types as well. Check the link for more information.\n",
+            "codeSnip": "\n30  @Autowired\n31  private DataSource dataSource;\n32  \n33  @Bean\n34  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {\n35  // @formatter:off\n36  HttpSessionRequestCache requestCache = new HttpSessionRequestCache();\n37  requestCache.setMatchingRequestParameterName(\"continue\");\n38  \n39  http\n40  .authorizeHttpRequests(auth -> auth\n41  .shouldFilterAllDispatcherTypes(true)\n42  .anyRequest()\n43  .authenticated()\n44  )\n45  .httpBasic(Customizer.withDefaults())\n46  .csrf(csrf -> csrf.disable())\n47  .securityContext(securityContext -> securityContext\n48  .securityContextRepository(new DelegatingSecurityContextRepository(\n49  new RequestAttributeSecurityContextRepository(),\n50  new HttpSessionSecurityContextRepository()\n51  ))\n52  )\n53  .sessionManagement(session -> session\n54  .sessionCreationPolicy(SessionCreationPolicy.STATELESS)",
+            "lineNumber": 40,
+            "variables": {
+              "file": "file:///projects/spring-petclinic-rest-legacy/src/main/java/org/springframework/samples/petclinic/security/BasicAuthenticationConfig.java",
+              "kind": "Method",
+              "name": "securityFilterChain",
+              "package": "org.springframework.samples.petclinic.security"
+            }
+          }
+        ]
+      }
+    },
+    "unmatched": [
+      "spring-framework-5.x-to-6.0-baseline-00001",
+      "spring-framework-5.x-to-6.0-data-access-00001",
+      "spring-framework-5.x-to-6.0-core-container-00001",
+      "spring-framework-5.x-to-6.0-removed-apis-00001",
+      "spring-framework-5.x-to-6.0-security-deprecations-00000",
+      "spring-framework-5.x-to-6.0-security-deprecations-00030",
+      "spring-framework-5.x-to-6.0-web-applications-00001",
+      "spring-framework-5.x-to-6.0-security-deprecations-00050",
+      "spring-framework-5.x-to-6.0-security-deprecations-00070",
+      "spring-framework-5.x-to-6.0-security-deprecations-00040",
+      "spring-framework-5.x-to-6.0-security-deprecations-00090",
+      "spring-framework-5.x-to-6.0-security-00001",
+      "spring-framework-5.x-to-6.0-security-deprecations-00180",
+      "spring-framework-5.x-to-6.0-security-00030",
+      "spring-framework-5.x-to-6.0-security-00080",
+      "spring-framework-5.x-to-6.0-security-00090",
+      "spring-framework-5.x-to-6.0-security-00010",
+      "spring-framework-5.x-to-6.0-security-00070",
+      "spring-framework-5.x-to-6.0-security-00100",
+      "spring-framework-5.x-to-6.0-security-00150",
+      "spring-framework-5.x-to-6.0-security-00060",
+      "spring-framework-5.x-to-6.0-security-00110",
+      "spring-framework-5.x-to-6.0-security-00190",
+      "spring-framework-5.x-to-6.0-security-00135",
+      "spring-framework-5.x-to-6.0-security-00130",
+      "spring-framework-5.x-to-6.0-security-00160",
+      "spring-framework-5.x-to-6.0-security-00120",
+      "spring-framework-5.x-to-6.0-security-00140",
+      "spring-framework-5.x-to-6.0-security-00180"
+    ],
+    "skipped": [
+      "spring-framework-5.x-to-6.0-baseline-00010",
+      "spring-framework-5.x-to-6.0-core-container-00010",
+      "spring-framework-5.x-to-6.0-core-container-00020",
+      "spring-framework-5.x-to-6.0-core-container-00030",
+      "spring-framework-5.x-to-6.0-web-applications-00010",
+      "spring-framework-5.x-to-6.0-web-applications-00030",
+      "spring-framework-5.x-to-6.0-web-applications-00040",
+      "spring-framework-5.x-to-6.0-data-access-00002",
+      "spring-framework-5.x-to-6.0-data-access-00003",
+      "spring-framework-5.x-to-6.0-data-access-00010",
+      "spring-framework-5.x-to-6.0-data-access-00020",
+      "spring-framework-5.x-to-6.0-data-access-00030",
+      "spring-framework-5.x-to-6.0-security-deprecations-00010",
+      "spring-framework-5.x-to-6.0-security-deprecations-00020",
+      "spring-framework-5.x-to-6.0-security-deprecations-00060",
+      "spring-framework-5.x-to-6.0-security-deprecations-00080",
+      "spring-framework-5.x-to-6.0-security-deprecations-00100",
+      "spring-framework-5.x-to-6.0-security-deprecations-00110",
+      "spring-framework-5.x-to-6.0-security-deprecations-00140",
+      "spring-framework-5.x-to-6.0-security-deprecations-00160",
+      "spring-framework-5.x-to-6.0-security-deprecations-00190"
+    ],
+    "activeProfileName": "Springboot update"
+  },
+  {
+    "name": "jakarta-ee9",
+    "violations": {
+      "spring-components-00002": {
+        "description": "Version of Spring not compatible with Jakarta EE 9+",
+        "category": "mandatory",
+        "labels": [
+          "konveyor.io/target=jakarta-ee9+",
+          "konveyor.io/target=jakarta-ee",
+          "konveyor.io/target=jws6+",
+          "konveyor.io/target=jws",
+          "konveyor.io/source"
+        ],
+        "incidents": [
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "codeSnip": "\n 1  <?xml version=\"1.0\" encoding=\"UTF-8\"?>\n 2  <project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n 3  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\n 4  <modelVersion>4.0.0</modelVersion>\n 5  \n 6  <groupId>org.springframework.samples</groupId>\n 7  <artifactId>spring-petclinic-rest</artifactId>\n 8  <version>2.6.2</version>\n 9  \n10  <description>REST version of the Spring Petclinic sample application</description>\n11  <url>https://spring-petclinic.github.io/</url>",
+            "lineNumber": 0,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-configuration-metadata",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "codeSnip": "\n151  <dependency>\n152  <groupId>org.springframework.boot</groupId>\n153  <artifactId>spring-boot-properties-migrator</artifactId>\n154  <scope>runtime</scope>\n155  </dependency>\n156  </dependencies>\n157  \n158  <build>\n159  <plugins>\n160  <plugin>\n161  <groupId>org.springframework.boot</groupId>\n162  <artifactId>spring-boot-maven-plugin</artifactId>\n163  <executions>\n164  <execution>\n165  <!-- Spring Boot Actuator displays build-related information\n166  if a META-INF/build-info.properties file is present -->\n167  <goals>\n168  <goal>build-info</goal>\n169  </goals>\n170  <configuration>\n171  <additionalProperties>",
+            "lineNumber": 160,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-properties-migrator",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "codeSnip": "\n 90  <groupId>org.springframework.security</groupId>\n 91  <artifactId>spring-security-test</artifactId>\n 92  <scope>test</scope>\n 93  </dependency>\n 94  \n 95  <dependency>\n 96  <groupId>com.fasterxml.jackson.core</groupId>\n 97  <artifactId>jackson-core</artifactId>\n 98  </dependency>\n 99  <dependency>\n100  <groupId>com.fasterxml.jackson.core</groupId>\n101  <artifactId>jackson-databind</artifactId>\n102  </dependency>\n103  <dependency>\n104  <groupId>com.jayway.jsonpath</groupId>\n105  <artifactId>json-path</artifactId>\n106  <scope>test</scope>\n107  </dependency>\n108  <dependency>\n109  <groupId>org.springdoc</groupId>\n110  <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>",
+            "lineNumber": 99,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-test",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "codeSnip": "\n58  <artifactId>spring-boot-starter-web</artifactId>\n59  </dependency>\n60  <dependency>\n61  <groupId>org.springframework.boot</groupId>\n62  <artifactId>spring-boot-starter-security</artifactId>\n63  </dependency>\n64  <dependency>\n65  <groupId>org.springframework.boot</groupId>\n66  <artifactId>spring-boot-starter-validation</artifactId>\n67  </dependency>\n68  <dependency>\n69  <groupId>org.hsqldb</groupId>\n70  <artifactId>hsqldb</artifactId>\n71  <scope>runtime</scope>\n72  </dependency>\n73  <dependency>\n74  <groupId>com.mysql</groupId>\n75  <artifactId>mysql-connector-j</artifactId>\n76  <scope>runtime</scope>\n77  </dependency>\n78  <dependency>",
+            "lineNumber": 67,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-validation",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "codeSnip": "\n54  <artifactId>spring-boot-starter-jdbc</artifactId>\n55  </dependency>\n56  <dependency>\n57  <groupId>org.springframework.boot</groupId>\n58  <artifactId>spring-boot-starter-web</artifactId>\n59  </dependency>\n60  <dependency>\n61  <groupId>org.springframework.boot</groupId>\n62  <artifactId>spring-boot-starter-security</artifactId>\n63  </dependency>\n64  <dependency>\n65  <groupId>org.springframework.boot</groupId>\n66  <artifactId>spring-boot-starter-validation</artifactId>\n67  </dependency>\n68  <dependency>\n69  <groupId>org.hsqldb</groupId>\n70  <artifactId>hsqldb</artifactId>\n71  <scope>runtime</scope>\n72  </dependency>\n73  <dependency>\n74  <groupId>com.mysql</groupId>",
+            "lineNumber": 63,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-security",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "codeSnip": "\n50  <artifactId>spring-boot-starter-data-jpa</artifactId>\n51  </dependency>\n52  <dependency>\n53  <groupId>org.springframework.boot</groupId>\n54  <artifactId>spring-boot-starter-jdbc</artifactId>\n55  </dependency>\n56  <dependency>\n57  <groupId>org.springframework.boot</groupId>\n58  <artifactId>spring-boot-starter-web</artifactId>\n59  </dependency>\n60  <dependency>\n61  <groupId>org.springframework.boot</groupId>\n62  <artifactId>spring-boot-starter-security</artifactId>\n63  </dependency>\n64  <dependency>\n65  <groupId>org.springframework.boot</groupId>\n66  <artifactId>spring-boot-starter-validation</artifactId>\n67  </dependency>\n68  <dependency>\n69  <groupId>org.hsqldb</groupId>\n70  <artifactId>hsqldb</artifactId>",
+            "lineNumber": 59,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-web",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "lineNumber": 55,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-jdbc",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "lineNumber": 51,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-data-jpa",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "lineNumber": 47,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-cache",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "lineNumber": 43,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-aop",
+              "version": "3.0.0"
+            }
+          },
+          {
+            "uri": "file:///projects/spring-petclinic-rest-legacy/pom.xml",
+            "message": "Version 6.0.0 is the minimum version of Spring that is Jakarta EE 9+ compatible",
+            "lineNumber": 39,
+            "variables": {
+              "name": "org.springframework.boot.spring-boot-starter-actuator",
+              "version": "3.0.0"
+            }
+          }
+        ]
+      }
+    },
+    "unmatched": [
+      "spring-components-00001"
+    ],
+    "activeProfileName": "Springboot update"
+  }
+]
